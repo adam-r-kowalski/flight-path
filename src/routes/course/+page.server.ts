@@ -1,9 +1,9 @@
-import * as db from '$lib/server/db';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = () => {
-	const courses = Object.values(db.courses).sort((a, b) => a.name.localeCompare(b.name));
+export const load: PageServerLoad = async ({ locals }) => {
+	const courseNames = await locals.database.courseNames();
+	const sorted = Object.values(courseNames).sort((a, b) => a.localeCompare(b));
 	return {
-		courses
+		courses: sorted
 	};
 };

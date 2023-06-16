@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { enhance } from "$app/forms";
+
 	export let data: import("./$types").PageData
 </script>
 
@@ -17,9 +19,16 @@
 </header>
 
 <main class="flex flex-col gap-2 p-2">
-	<section class="bg-blue-900 flex flex-col p-2 rounded-xl shadow">
-		<strong>New Game</strong>
-	</section>
+	<form
+		method="POST"
+		action="?/newGame"
+		class="flex flex-1"
+		use:enhance
+	>
+		<button class="p-2 flex-1 flex bg-blue-900 rounded-xl shadow">
+			New Game
+		</button>
+	</form>
 	<section class="bg-slate-800 flex flex-col p-2 rounded-xl shadow">
 		<strong class="text-xs">Address</strong>
 		<span class="leading-4">{data.course.address}</span>

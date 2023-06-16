@@ -1,5 +1,5 @@
 <header  class="flex items-center justify-center gap-2 px-2 pt-2">
-	<strong class="text-2xl text-center">Flight Paths</strong>
+	<h1 class="text-2xl text-center">Flight Paths</h1>
 </header>
 
 <main class="flex flex-col gap-2 p-2">

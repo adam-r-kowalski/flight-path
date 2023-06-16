@@ -1,6 +1,14 @@
-import type { Courses } from '$lib/domain';
+import type { Course, DataBase, Game } from '$lib/domain';
 
-export const courses: Courses = {
+interface Courses {
+	[name: string]: Course;
+}
+
+interface Games {
+	[name: string]: Game;
+}
+
+const courses: Courses = {
 	"Horning's Hideout": {
 		name: "Horning's Hideout",
 		address: '21277 NW Brunswick Canyon Rd, North Plains, OR 97133',
@@ -51,5 +59,39 @@ export const courses: Courses = {
 		map: 'https://www.dgcoursereview.com/course_files/7131/8a85322b.jpg',
 		address: '8239 Champoeg Rd NE, St Paul, OR 97137',
 		holes: 18
+	}
+};
+
+const games: Games = {};
+
+export const database: DataBase = {
+	courseNames: async () => Object.keys(courses),
+	course: async (name: string) => courses[name],
+	newGame: async (course: string, n_holes: number) => {
+		const id = Math.random().toString(36).substring(2, 6);
+		const holes = Array(n_holes).fill({ par: 3, scores: {} });
+		games[id] = {
+			id,
+			course,
+			players: [],
+			holes
+		};
+		return id;
+	},
+	gameIds: async () => Object.keys(games),
+	game: async (id: string) => games[id],
+	addPlayer: async (id: string, player: string) => {
+		const game = games[id];
+		game.players.push(player);
+		game.holes.forEach((hole) => {
+			hole.scores[player] = 0;
+		});
+	},
+	removePlayer: async (id: string, player: string) => {
+		const game = games[id];
+		game.players = game.players.filter((p) => p !== player);
+		game.holes.forEach((hole) => {
+			delete hole.scores[player];
+		});
 	}
 };
