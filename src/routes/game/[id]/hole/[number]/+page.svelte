@@ -3,6 +3,7 @@
 	import Player from './Player.svelte'
 	import Button from "./Button.svelte";
 	import Card from "./Card.svelte";
+	import { enhance } from '$app/forms';
 
 	export let data: PageData
 
@@ -34,13 +35,17 @@
 	<Card class="bg-blue-900">
 		<h2 class="text-white p-2 text-xl">Par</h2>
 		<div class="flex gap-2 items-center">
-			<Button class="bg-blue-500">
-				-
-			</Button>
+			<form method="POST" action="?/decreasePar" use:enhance>
+				<Button class="bg-blue-500">
+					-
+				</Button>
+			</form>
 			<h2 class="text-xl">{data.hole.par}</h2>
-			<Button class="bg-blue-500">
-				+
-			</Button>
+			<form method="POST" action="?/increasePar" use:enhance>
+				<Button class="bg-blue-500">
+					+
+				</Button>
+			</form>
 		</div>
 	</Card>
 	{#each Object.entries(data.hole.scores) as [name, score]}

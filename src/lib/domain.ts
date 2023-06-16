@@ -25,4 +25,8 @@ export interface DataBase {
 	game: (id: string) => Promise<Game>;
 	addPlayer: (id: string, player: string) => Promise<void>;
 	removePlayer: (id: string, player: string) => Promise<void>;
+	decreasePar: (id: string, hole: number) => Promise<void>;
+	increasePar: (id: string, hole: number) => Promise<void>;
+	decreaseScore: (id: string, hole: number, name: string) => Promise<void>;
+	increaseScore: (id: string, hole: number, name: string) => Promise<void>;
 }

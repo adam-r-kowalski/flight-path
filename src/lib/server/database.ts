@@ -1,4 +1,4 @@
-import type { Course, DataBase, Game } from '$lib/domain';
+import type { Course, DataBase, Game, Hole } from '$lib/domain';
 
 interface Courses {
 	[name: string]: Course;
@@ -69,7 +69,13 @@ export const database: DataBase = {
 	course: async (name: string) => courses[name],
 	newGame: async (course: string, n_holes: number) => {
 		const id = Math.random().toString(36).substring(2, 6);
-		const holes = Array(n_holes).fill({ par: 3, scores: {} });
+		const holes: Hole[] = [];
+		for (let i = 0; i < n_holes; i++) {
+			holes.push({
+				par: 3,
+				scores: {}
+			});
+		}
 		games[id] = {
 			id,
 			course,
@@ -93,5 +99,21 @@ export const database: DataBase = {
 		game.holes.forEach((hole) => {
 			delete hole.scores[player];
 		});
+	},
+	decreasePar: async (id: string, hole: number) => {
+		const game = games[id];
+		game.holes[hole].par -= 1;
+	},
+	increasePar: async (id: string, hole: number) => {
+		const game = games[id];
+		game.holes[hole].par += 1;
+	},
+	decreaseScore: async (id: string, hole: number, name: string) => {
+		const game = games[id];
+		game.holes[hole].scores[name] -= 1;
+	},
+	increaseScore: async (id: string, hole: number, name: string) => {
+		const game = games[id];
+		game.holes[hole].scores[name] += 1;
 	}
 };
