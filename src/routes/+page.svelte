@@ -1,21 +1,13 @@
-<script lang="ts">
-	import Hole from './Hole.svelte'
-	import Par from './Par.svelte'
-	import Player from './Player.svelte'
-</script>
+<header  class="flex items-center justify-center gap-2 px-2 pt-2">
+	<strong class="text-2xl text-center">Flight Paths</strong>
+</header>
 
-<svelte:head>
-	<title>Flight Paths</title>
-	<meta name="description" content="Your Disc Golf Companion" />
-</svelte:head>
-
-<Hole />
-
-<main class="flex flex-col gap-2 px-2 pb-2">
-	<Par />
-	<Player name="Adam Kowalski" score={4} />
-	<Player name="Michael Milowski" score={3} />
-	<Player name="David Carlen" score={3} />
-	<Player name="Misiu Cieskowski" score={5} />
+<main class="flex flex-col gap-2 p-2">
+	<a href="/course" class="bg-slate-800 flex items-center justify-between p-2 rounded-xl shadow">
+		Courses
+	</a>
+	<a href="/game" class="bg-slate-800 flex items-center justify-between p-2 rounded-xl shadow">
+		Games
+	</a>
+	<img class="rounded-xl shadow" src="https://cdn.buttercms.com/I4Hx7mUdRY6QrPISZ9Tv" alt="flight paths" />
 </main>
-
