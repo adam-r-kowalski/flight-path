@@ -9,16 +9,17 @@ export const migrate = async () => {
 			id SERIAL PRIMARY KEY,
 			name VARCHAR(255) NOT NULL,
 			address TEXT NOT NULL,
-			picture_url TEXT,
-			total_holes INT NOT NULL DEFAULT 18
+			total_holes INT NOT NULL,
+			map TEXT
 		);
 
 		CREATE TABLE IF NOT EXISTS hole (
 			id SERIAL PRIMARY KEY,
 			course_id INT NOT NULL REFERENCES course(id),
 			hole_number INT NOT NULL,
-			par INT NOT NULL DEFAULT 3,
-			distance_to_basket INT
+			par INT NOT NULL,
+			distance_to_basket INT,
+			map TEXT
 		);
 
 		CREATE TABLE IF NOT EXISTS player (
