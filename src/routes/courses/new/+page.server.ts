@@ -1,7 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import { z } from 'zod';
-import { db } from '@vercel/postgres';
+import { createClient } from '@vercel/postgres';
 
 const schema = z.object({
 	name: z.string().min(1).max(255),
@@ -16,7 +16,8 @@ export const actions: Actions = {
 		const parsed = schema.safeParse(data);
 		if (!parsed.success) return fail(400, { ...data, incorrect: true });
 		const { name, address, total_holes, map } = parsed.data;
-		const client = await db.connect();
+		const client = createClient();
+		await client.connect();
 		await client.sql`BEGIN;`;
 		const result = await client.sql`
 			INSERT INTO course (name, address, total_holes, map)
@@ -31,6 +32,7 @@ export const actions: Actions = {
 			`;
 		}
 		await client.sql`COMMIT;`;
+		await client.end();
 		throw redirect(303, `/courses/${course_id}?created=true`);
 	}
 };

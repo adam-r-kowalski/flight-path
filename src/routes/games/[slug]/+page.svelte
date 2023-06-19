@@ -18,28 +18,23 @@
 		<p>{data.course.name}</p>
 	</section>
 	<hr />
-	<form method="POST" use:enhance class="flex flex-col gap-2">
-		<div class="grid grid-cols-[minmax(0,1fr)_32px] gap-2 items-center">
-			<strong>Players</strong>
-			<button
-				formaction="?/add_player"
-				class="rounded shadow h-[32px] bg-blue-500 hover:bg-blue-700 text-white">+</button
-			>
-			{#each data.players as player}
-				<input
-					placeholder="Player Name"
-					name={player.id}
-					value={player.name}
-					required
-					class="px-2 py-1 rounded shadow border"
-				/>
-				<button
-					formaction="?/remove_player"
-					class="rounded shadow h-[32px] bg-red-500 hover:bg-red-700 text-white">-</button
-				>
-			{/each}
-		</div>
-		<hr />
-		<Button type="submit">Let's Throw</Button>
+	<strong>Players</strong>
+	<form method="POST" action="?/new_player" use:enhance class="flex gap-2 items-center">
+		<input
+			placeholder="Player Name"
+			name="name"
+			required
+			class="px-2 py-1 rounded shadow border flex-1 min-w-0"
+		/>
+		<button class="rounded shadow bg-blue-500 w-8 h-8 hover:bg-blue-700 text-white">+</button>
 	</form>
+	{#each data.players as player}
+		<form method="POST" action="?/remove_player" use:enhance class="flex gap-2 items-center">
+			<input type="hidden" name="id" value={player.id} />
+			<p class="flex-1 px-2">{player.name}</p>
+			<button class="rounded shadow w-8 h-8 bg-red-500 hover:bg-red-700 text-white">-</button>
+		</form>
+	{/each}
+	<hr />
+	<Button type="submit">Let's Throw</Button>
 </main>
