@@ -22,20 +22,15 @@ export const migrate = async () => {
 			map TEXT
 		);
 
-		CREATE TABLE IF NOT EXISTS player (
-			id SERIAL PRIMARY KEY,
-			name VARCHAR(255) NOT NULL
-		);
-
         CREATE TABLE IF NOT EXISTS game (
 			id SERIAL PRIMARY KEY,
 			slug VARCHAR(255) NOT NULL UNIQUE,
 			course_id INT NOT NULL REFERENCES course(id)
         );
 
-		CREATE TABLE IF NOT EXISTS player_games (
+		CREATE TABLE IF NOT EXISTS player (
 			id SERIAL PRIMARY KEY,
-			player_id INT NOT NULL REFERENCES player(id),
+			name VARCHAR(255) NOT NULL,
 			game_id INT NOT NULL REFERENCES game(id),
 			total_score INT
 		);
@@ -45,6 +40,7 @@ export const migrate = async () => {
 		    player_id INT NOT NULL REFERENCES player(id),
 		    game_id INT NOT NULL REFERENCES game(id),
 		    hole_id INT NOT NULL REFERENCES hole(id),
+			hole_number INT NOT NULL,
 		    score INT NOT NULL
 		);
 	`;

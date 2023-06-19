@@ -3,6 +3,7 @@
 	import H1 from '$lib/components/H1.svelte';
 	import Toast from '$lib/components/Toast.svelte';
 	import type { PageData } from './$types';
+	import { enhance } from '$app/forms';
 
 	export let data: PageData;
 </script>
@@ -17,7 +18,9 @@
 
 <main class="flex flex-col p-2 gap-2">
 	<hr />
-	<Button>Start New Game</Button>
+	<form method="POST" use:enhance class="flex flex-col items-stretch">
+		<Button type="submit">Start New Game</Button>
+	</form>
 	<hr />
 	<section>
 		<strong>Address</strong>
