@@ -15,19 +15,54 @@
 	<hr />
 	<strong>Scores</strong>
 	{#each data.scores as score}
-		<form method="POST" use:enhance class="flex items-center gap-2 border p-2 rounded shadow">
-			<input type="hidden" name="id" value={score.id} />
+		<section class="flex items-center gap-2 border p-2 rounded shadow">
 			<p class="flex-1">{score.name}</p>
-			<button
-				formaction="?/decrease_score"
-				class="rounded shadow bg-blue-500 w-8 h-8 hover:bg-blue-700 text-white">-</button
+			<form
+				method="POST"
+				action="?/decrease_score"
+				use:enhance={({ formData }) => {
+					const id = formData.get('id');
+					if (id) {
+						const parsed = parseInt(id.toString());
+						for (const score of data.scores) {
+							if (score.id === parsed) {
+								score.score--;
+							}
+						}
+						data = data;
+					}
+					return async ({ update }) => {
+						update();
+					};
+				}}
 			>
-			<strong class="text-xl">{score.score}</strong>
-			<button
-				formaction="?/increase_score"
-				class="rounded shadow bg-blue-500 w-8 h-8 hover:bg-blue-700 text-white">+</button
+				<input type="hidden" name="id" value={score.id} />
+				<button class="rounded shadow bg-blue-500 w-8 h-8 hover:bg-blue-700 text-white">-</button>
+			</form>
+			<strong class="text-xl w-6 text-center">{score.score}</strong>
+			<form
+				method="POST"
+				action="?/increase_score"
+				use:enhance={({ formData }) => {
+					const id = formData.get('id');
+					if (id) {
+						const parsed = parseInt(id.toString());
+						for (const score of data.scores) {
+							if (score.id === parsed) {
+								score.score++;
+							}
+						}
+						data = data;
+					}
+					return async ({ update }) => {
+						update();
+					};
+				}}
 			>
-		</form>
+				<input type="hidden" name="id" value={score.id} />
+				<button class="rounded shadow bg-blue-500 w-8 h-8 hover:bg-blue-700 text-white">+</button>
+			</form>
+		</section>
 	{/each}
 	<hr />
 	<section class="flex gap-2">
