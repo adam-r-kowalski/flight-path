@@ -1,7 +1,7 @@
 import { sql } from '@vercel/postgres';
 import { config } from 'dotenv';
 
-config({ path: '.env.development.local' });
+config();
 
 export const migrate = async () => {
 	await sql`
