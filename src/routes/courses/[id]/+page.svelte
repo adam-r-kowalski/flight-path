@@ -38,4 +38,11 @@
 			<img src={data.course.map} alt="Map" class="mt-1" />
 		</section>
 	{/if}
+	<hr />
+	<a
+		href="/courses/{data.course.id}/edit"
+		class="bg-amber-500 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded"
+	>
+		Edit Course
+	</a>
 </main>

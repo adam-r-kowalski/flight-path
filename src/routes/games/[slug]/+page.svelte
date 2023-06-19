@@ -18,7 +18,12 @@
 	</section>
 	<hr />
 	<strong>Players</strong>
-	<form method="POST" action="?/new_player" use:enhance class="flex gap-2 items-center">
+	<form
+		method="POST"
+		action="?/new_player"
+		use:enhance
+		class="flex items-center gap-2 border p-2 rounded shadow"
+	>
 		<input
 			placeholder="Player Name"
 			name="name"
@@ -28,7 +33,12 @@
 		<button class="rounded shadow bg-blue-500 w-8 h-8 hover:bg-blue-700 text-white">+</button>
 	</form>
 	{#each data.players as player}
-		<form method="POST" action="?/remove_player" use:enhance class="flex gap-2 items-center">
+		<form
+			method="POST"
+			action="?/remove_player"
+			use:enhance
+			class="flex items-center gap-2 border p-2 rounded shadow"
+		>
 			<input type="hidden" name="id" value={player.id} />
 			<p class="flex-1 px-2">{player.name}</p>
 			<button class="rounded shadow w-8 h-8 bg-red-500 hover:bg-red-700 text-white">-</button>
