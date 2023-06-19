@@ -1,4 +1,4 @@
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import { z } from 'zod';
 import { db } from '@vercel/postgres';
@@ -31,5 +31,6 @@ export const actions: Actions = {
 			`;
 		}
 		await client.sql`COMMIT;`;
+		throw redirect(303, `/courses/${course_id}?created=true`);
 	}
 };
