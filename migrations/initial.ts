@@ -31,8 +31,7 @@ export const migrate = async () => {
 		CREATE TABLE IF NOT EXISTS player (
 			id SERIAL PRIMARY KEY,
 			name VARCHAR(255) NOT NULL,
-			game_id INT NOT NULL REFERENCES game(id),
-			total_score INT
+			game_id INT NOT NULL REFERENCES game(id)
 		);
 
 		CREATE TABLE IF NOT EXISTS player_scores (
@@ -40,7 +39,6 @@ export const migrate = async () => {
 		    player_id INT NOT NULL REFERENCES player(id),
 		    game_id INT NOT NULL REFERENCES game(id),
 		    hole_id INT NOT NULL REFERENCES hole(id),
-			hole_number INT NOT NULL,
 		    score INT NOT NULL
 		);
 	`;

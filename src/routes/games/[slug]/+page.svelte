@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Button from '$lib/components/Button.svelte';
 	import H1 from '$lib/components/H1.svelte';
 	import { enhance } from '$app/forms';
 	import type { PageData } from './$types';
@@ -36,5 +35,8 @@
 		</form>
 	{/each}
 	<hr />
-	<Button type="submit">Let's Throw</Button>
+	<a
+		href="/games/{data.game.slug}/hole/1"
+		class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Let's Throw</a
+	>
 </main>

@@ -7,7 +7,7 @@ export const load: PageServerLoad = async ({ params }) => {
 	const client = createClient();
 	await client.connect();
 	const game_result = await client.sql`
-		SELECT id, course_id FROM game WHERE slug=${params.slug};
+		SELECT * FROM game WHERE slug=${params.slug};
 	`;
 	const game = game_result.rows[0];
 	const course_result = await client.sql`
@@ -20,6 +20,7 @@ export const load: PageServerLoad = async ({ params }) => {
 	await client.end();
 	return {
 		course,
+		game,
 		players: players_result.rows
 	};
 };
@@ -42,18 +43,18 @@ export const actions: Actions = {
 		const course_id = game.course_id;
 		const game_id = game.id;
 		const player_result = await client.sql`
-			INSERT INTO player (name, game_id, total_score)
-			VALUES (${parsed.data.name}, ${game_id}, 0)
+			INSERT INTO player (name, game_id)
+			VALUES (${parsed.data.name}, ${game_id})
 			RETURNING id;
 		`;
 		const player_id = player_result.rows[0].id;
 		const holes_result = await client.sql`
-			SELECT id, hole_number FROM hole WHERE course_id=${course_id};
+			SELECT id FROM hole WHERE course_id=${course_id};
 		`;
 		for (const hole of holes_result.rows) {
 			await client.sql`;
-				INSERT INTO player_scores (player_id, game_id, hole_id, hole_number, score)
-				VALUES (${player_id}, ${game_id}, ${hole.id}, ${hole.hole_number}, 0);
+				INSERT INTO player_scores (player_id, game_id, hole_id, score)
+				VALUES (${player_id}, ${game_id}, ${hole.id}, 0);
 			`;
 		}
 		await client.sql`COMMIT;`;
