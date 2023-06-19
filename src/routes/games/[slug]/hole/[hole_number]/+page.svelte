@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import H1 from '$lib/components/H1.svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 </script>
 
-<header class="pt-2">
-	<H1>Hole {data.hole.hole_number}</H1>
+<header class="pt-2 flex justify-center">
+	<a href="/games/{data.game.slug}/hole" class="text-2xl font-bold">
+		Hole {data.hole.hole_number}
+	</a>
 </header>
 
 <main class="flex flex-col p-2 gap-2">
