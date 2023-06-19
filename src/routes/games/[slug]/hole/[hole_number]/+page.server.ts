@@ -1,4 +1,4 @@
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { createClient } from '@vercel/postgres';
 import { z } from 'zod';
@@ -16,6 +16,7 @@ export const load: PageServerLoad = async ({ params }) => {
 		    WHERE course_id=${game.course_id}
 			AND hole_number=${params.hole_number};
 	`;
+	if (!hole_result.rows.length) throw redirect(303, `/games/${params.slug}/hole`);
 	const hole = hole_result.rows[0];
 	const scores_results = await client.sql`
 		SELECT player.id, player.name, player_scores.score

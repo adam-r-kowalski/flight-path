@@ -9,7 +9,7 @@ export const load: PageServerLoad = async ({ params }) => {
 	`;
 	const game = game_result.rows[0];
 	const course_result = await client.sql`
-		SELECT name, map FROM course WHERE id=${game.course_id};
+		SELECT name, map, total_holes FROM course WHERE id=${game.course_id};
 	`;
 	const course = course_result.rows[0];
 	const scores_result = await client.sql`
@@ -22,7 +22,8 @@ export const load: PageServerLoad = async ({ params }) => {
 		INNER JOIN hole ON player_scores.hole_id = hole.id AND player_scores.score > 0
 		WHERE 
 			player_scores.game_id = ${game.id} 
-		GROUP BY player.id;
+		GROUP BY player.id
+		ORDER BY total_score ASC;
 	`;
 	const scores = scores_result.rows;
 	await client.end();
