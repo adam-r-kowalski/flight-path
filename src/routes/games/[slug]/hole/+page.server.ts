@@ -9,7 +9,7 @@ export const load: PageServerLoad = async ({ params }) => {
 	`;
 	const game = game_result.rows[0];
 	const course_result = await client.sql`
-		SELECT name, map, total_holes FROM course WHERE id=${game.course_id};
+		SELECT * FROM course WHERE id=${game.course_id};
 	`;
 	const course = course_result.rows[0];
 	const scores_result = await client.sql`

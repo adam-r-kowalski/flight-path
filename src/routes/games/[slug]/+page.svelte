@@ -12,11 +12,6 @@
 
 <main class="flex flex-col p-2 gap-2">
 	<hr />
-	<section>
-		<strong>Course</strong>
-		<p>{data.course.name}</p>
-	</section>
-	<hr />
 	<strong>Players</strong>
 	<form
 		method="POST"
@@ -47,6 +42,30 @@
 	<hr />
 	<a
 		href="/games/{data.game.slug}/hole/1"
-		class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Let's Throw</a
+		class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
 	>
+		Let's Throw
+	</a>
+	<hr />
+	<section>
+		<strong>Course</strong>
+		<p>{data.course.name}</p>
+	</section>
+	<hr />
+	<section>
+		<strong>Address</strong>
+		<p>{data.course.address}</p>
+	</section>
+	<hr />
+	<section>
+		<strong>Total Holes</strong>
+		<p>{data.course.total_holes}</p>
+	</section>
+	{#if data.course.map}
+		<hr />
+		<section>
+			<strong>Map</strong>
+			<img src={data.course.map} alt="Map" class="mt-1" />
+		</section>
+	{/if}
 </main>

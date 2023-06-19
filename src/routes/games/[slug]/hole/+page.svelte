@@ -32,6 +32,21 @@
 			{/each}
 		</div>
 	</section>
+	<hr />
+	<section>
+		<strong>Course</strong>
+		<p>{data.course.name}</p>
+	</section>
+	<hr />
+	<section>
+		<strong>Address</strong>
+		<p>{data.course.address}</p>
+	</section>
+	<hr />
+	<section>
+		<strong>Total Holes</strong>
+		<p>{data.course.total_holes}</p>
+	</section>
 	{#if data.course.map}
 		<hr />
 		<section>
