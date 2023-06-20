@@ -2,9 +2,18 @@
 	import H1 from '$lib/components/H1.svelte';
 	import { enhance } from '$app/forms';
 	import type { PageData } from './$types';
+	import { onMount } from 'svelte';
+	import { invalidateAll } from '$app/navigation';
 
 	export let data: PageData;
 	let new_player_input: HTMLInputElement;
+
+	onMount(() => {
+		const interval = setInterval(async () => {
+			await invalidateAll();
+		}, 5000);
+		return () => clearInterval(interval);
+	});
 </script>
 
 <header class="pt-2">

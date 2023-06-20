@@ -1,8 +1,17 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
+	import { invalidateAll } from '$app/navigation';
 
 	export let data: PageData;
+
+	onMount(() => {
+		const interval = setInterval(async () => {
+			await invalidateAll();
+		}, 5000);
+		return () => clearInterval(interval);
+	});
 </script>
 
 <header class="pt-2 flex justify-center">
