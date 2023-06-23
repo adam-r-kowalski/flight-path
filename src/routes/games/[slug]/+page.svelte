@@ -2,18 +2,7 @@
 	import H1 from '$lib/components/H1.svelte';
 	import { enhance } from '$app/forms';
 	import type { PageData } from './$types';
-	import { onMount } from 'svelte';
-	import { invalidateAll } from '$app/navigation';
-
 	export let data: PageData;
-	let new_player_input: HTMLInputElement;
-
-	onMount(() => {
-		const interval = setInterval(async () => {
-			await invalidateAll();
-		}, 5000);
-		return () => clearInterval(interval);
-	});
 </script>
 
 <header class="pt-2">
@@ -27,24 +16,9 @@
 		method="POST"
 		action="?/new_player"
 		class="flex items-center gap-2 border p-2 rounded shadow"
-		use:enhance={({ formData }) => {
-			const name = formData.get('name');
-			if (name) {
-				data.players.push({
-					id: crypto.randomUUID(),
-					name
-				});
-				data = data;
-				new_player_input.value = '';
-				new_player_input.blur();
-			}
-			return async ({ update }) => {
-				update();
-			};
-		}}
+		use:enhance
 	>
 		<input
-			bind:this={new_player_input}
 			placeholder="Player Name"
 			name="name"
 			required
@@ -57,16 +31,7 @@
 			method="POST"
 			action="?/remove_player"
 			class="flex items-center gap-2 border p-2 rounded shadow"
-			use:enhance={({ formData }) => {
-				const id = formData.get('id');
-				if (id) {
-					const parsed = parseInt(id.toString());
-					data.players = data.players.filter((p) => p.id !== parsed);
-				}
-				return async ({ update }) => {
-					update();
-				};
-			}}
+			use:enhance
 		>
 			<input type="hidden" name="id" value={player.id} />
 			<p class="flex-1 px-2">{player.name}</p>

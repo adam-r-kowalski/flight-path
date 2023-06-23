@@ -1,17 +1,8 @@
 <script lang="ts">
 	import H1 from '$lib/components/H1.svelte';
-	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
-	import { invalidateAll } from '$app/navigation';
 
 	export let data: PageData;
-
-	onMount(() => {
-		const interval = setInterval(async () => {
-			await invalidateAll();
-		}, 5000);
-		return () => clearInterval(interval);
-	});
 </script>
 
 <header class="pt-2 flex justify-center">

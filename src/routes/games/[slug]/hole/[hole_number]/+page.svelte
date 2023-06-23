@@ -1,17 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
-	import { invalidateAll } from '$app/navigation';
 
 	export let data: PageData;
-
-	onMount(() => {
-		const interval = setInterval(async () => {
-			await invalidateAll();
-		}, 5000);
-		return () => clearInterval(interval);
-	});
 </script>
 
 <header class="pt-2 flex justify-center">
@@ -26,48 +17,12 @@
 	{#each data.scores as score}
 		<section class="flex items-center gap-2 border p-2 rounded shadow">
 			<p class="flex-1">{score.name}</p>
-			<form
-				method="POST"
-				action="?/decrease_score"
-				use:enhance={({ formData }) => {
-					const id = formData.get('id');
-					if (id) {
-						const parsed = parseInt(id.toString());
-						for (const score of data.scores) {
-							if (score.id === parsed) {
-								score.score--;
-							}
-						}
-						data = data;
-					}
-					return async ({ update }) => {
-						update();
-					};
-				}}
-			>
+			<form method="POST" action="?/decrease_score" use:enhance>
 				<input type="hidden" name="id" value={score.id} />
 				<button class="rounded shadow bg-blue-500 w-8 h-8 hover:bg-blue-700 text-white">-</button>
 			</form>
 			<strong class="text-xl w-6 text-center">{score.score}</strong>
-			<form
-				method="POST"
-				action="?/increase_score"
-				use:enhance={({ formData }) => {
-					const id = formData.get('id');
-					if (id) {
-						const parsed = parseInt(id.toString());
-						for (const score of data.scores) {
-							if (score.id === parsed) {
-								score.score++;
-							}
-						}
-						data = data;
-					}
-					return async ({ update }) => {
-						update();
-					};
-				}}
-			>
+			<form method="POST" action="?/increase_score" use:enhance>
 				<input type="hidden" name="id" value={score.id} />
 				<button class="rounded shadow bg-blue-500 w-8 h-8 hover:bg-blue-700 text-white">+</button>
 			</form>
