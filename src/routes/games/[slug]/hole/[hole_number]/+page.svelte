@@ -32,7 +32,15 @@
 </script>
 
 <header class="pt-2 flex justify-center">
-	<a href="/games/{data.game.slug}/hole" class="text-2xl font-bold">
+	<a
+		href="/games/{data.game.slug}/hole"
+		class="text-2xl font-bold"
+		on:click={async () => {
+			if (pendingActions > 0) {
+				await updateScores();
+			}
+		}}
+	>
 		Hole {data.hole.hole_number}
 	</a>
 </header>
