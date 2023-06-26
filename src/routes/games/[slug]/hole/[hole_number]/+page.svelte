@@ -5,16 +5,20 @@
 	export let data: PageData;
 
 	let pendingActions = 0;
+	let pendingScores: { [name: string]: any } = {};
 
 	const updateScores = async () => {
-		await fetch(`/games/${data.game.slug}/hole/${data.hole.hole_number}`, {
+		const result = await fetch(`/games/${data.game.slug}/hole/${data.hole.hole_number}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(data.scores)
+			body: JSON.stringify(pendingScores)
 		});
+		const newScores = await result.json();
+		data.scores = newScores;
 		pendingActions = 0;
+		pendingScores = {};
 	};
 
 	$: if (pendingActions > 0) {
@@ -46,6 +50,7 @@
 					on:click|preventDefault={() => {
 						pendingActions += 1;
 						data.scores[i].score = Math.max(data.scores[i].score - 1, 0);
+						pendingScores[score.name] = data.scores[i];
 					}}
 				>
 					-
@@ -58,7 +63,8 @@
 					class="rounded shadow bg-blue-500 w-8 h-8 hover:bg-blue-700 text-white"
 					on:click|preventDefault={() => {
 						pendingActions += 1;
-						data.scores[i].score += 1;
+						data.scores[i].score = data.scores[i].score + 1;
+						pendingScores[score.name] = data.scores[i];
 					}}
 				>
 					+
